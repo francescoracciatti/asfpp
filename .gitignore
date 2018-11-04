@@ -3,7 +3,7 @@ CMakeLists.txt
 deploy
 build/
 .idea/
-
+doc/src
 
 # Created by https://www.gitignore.io/api/c,c++,cmake,latex,linux,clion,macos,python,eclipse
 # Edit at https://www.gitignore.io/?templates=c,c++,cmake,latex,linux,clion,macos,python,eclipse
