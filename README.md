@@ -1,81 +1,52 @@
-Description
-============
-This is the Attack Simulation Framework ++ (aka ASF++ or asfpp).
-It is composed by three elments:
+# ASF++
+The Attack Simulation Framework makes it possible to simulate the impact of cyber-physical attacks 
+on WSNs. 
+
+Thanks to ASF, the user can describe attacks, and evaluate their impact, 
+on the network and the application. 
+
+**Under porting** from Castalia 3.2 to Castalia 3.3.   
+
+## Description
+ASF++ is composed by three elments:
  + an Attack Description Language (ADL);
  + an Attack Description Interpreter (ADI);
  + an Attack Simulator.
 
-ASF++ allows the user to simulate the effects of cyber-physical attacks against WSNs, collect data and, at the end, rank attacks.
+### Attack Description Language
+ADL is a high-level and user friendly description language that provides users with the capability of describe the 
+effects of cyber-physical attacks on the network or the application.
+
+### Attack Description Interpreter
+ADI is the 'glue' between ADL and the underlying simulator.
+It interprets the description of the attacks and produces an XML file, that will be used by the simulator.
+
+### Attack Simulator
+The attack simulator is the engine of the ASF++. It parses the XML file produced by the interpreter and 
+simulates the effects of the attacks.
+
+The attack simulator is based on Castalia/OMNeT++.
 
 
-Attack Description Language
-===========================
-The ADL is a real high-level description language that is independent from the underlying simulator.
-By using the ADL, the user can describe cyber-physical attacks against WSNs.
-
-The ADL allows the user to describe cyber-physical attacks in a very rapid and simple manner, avoiding him to actually implement the attacks.
-
-In other words, the user must only describe attacks by editing a simple text file, he does not need neither to know how attacks are actually performed nor to implement them (by writing a lot of code).
-
-The text file contains the description of the attacks, according to the ADL. Its format is '.adl'.
+## Workflow
+After deploying and building ASF++ on the local machine, it is easy to carry out an attack simulation:   
+1. build a simulation scenario by using the NED language,
+2. describe the effects of the attacks under survey by using the Attack Description Language,
+3. interprets the attack description by using the Attack Description Interpreter,
+4. launch the simulation.
 
 
-Attack Description Interpreter
-==============================
-The ADI is the 'glue' between the ADL (the high-level Attack Description Language) and the underlying simulator (ASF++).
-
-The ADI interprets the '.adl' file (which contains the description of the attacks) and produces as output a  well-structured '.xml' file.
-
-
-Attack Simulator
-================
-The attack simulator is the core of the ASF++. It parses the '.xml' file produced by the interpreter and simulates the effects of the attacks.
-
-Note: the simulator does not performs attacks, it only simulates the final effects of them.
-
-
-Workflow
-========
-Step 0
-Build the simulator.
-
-Step 1
-Build a simulation scenario (based on Castalia) by using the NED language.
-
-Step 2
-Produce an ADL file by using a simple text editor (and the ADL, of course). The ADL file, e.g. 'attacks.adl', contains the description of the attacks.
-
-Step 3
-Invoke the ADI. The interpreter take the ADL file 'attacks.adl' as input and produces the xml file 'attacks.xml'.
-
-Step 4
-Launch the simulation.
-
-
-Build the simulator
-===================
-After building OMNeT++ 4.6 type:
+## Build the simulator
+After installing OMNeT++ 4.6, in the asfpp' directory type:
 
 ``` sh
 $ ./makemake
 $ make
 ```
 
-Designed and tested
-===================
-ASF++ is based on Castalia 3.2. It was succesfully tested with:
- + Ubuntu 14.04
- + OMNeT++ 4.5, OMNeT++ 4.6
 
-
-User manual
-===========
-The user manual contains a lot of details about the installation process and the use of the simulator.
-
-
-Authors
-=======
+## Acknowledgments
 + Francesco Racciatti  	<racciatti.francesco@gmail.com>
-+ Alessandro Pischedda	<alessandro.pischedda@gmail.com>
 + Marco Tiloca			<marco.tiloca84@gmail.com>
++ Alessandro Pischedda	<alessandro.pischedda@gmail.com>
+

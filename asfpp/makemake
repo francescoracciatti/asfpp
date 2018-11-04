@@ -18,11 +18,13 @@ ROOT=`pwd`
 # For explanation and a complete list of options run: opp_makemake -h
 OPTS=" -f -r --deep -o CastaliaBin -u Cmdenv -P $ROOT -M release"
 
+# Debug mode
+#OPTS=" -f -r --deep -o CastaliaBin -u Cmdenv -P $ROOT -M release"
+
 # -X excludes a directory from being considered
 EXCLUDEDIRS=" -X Simulations -X out -X bin"
 
 # Use options -I -L -l to include external header files or libraries
-# A.P. was empty
 EXTOPTS=" `pkg-config --cflags --libs libxml++-2.6`"
 
 # Run OMNeT's opp_makemake tool with the above options
