@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<configuration>
+
+	<Physical>
+
+		<Attack>
+			<start_time>100</start_time>
+			<node>2</node>
+
+			<action>
+				<name>Fakeread</name>
+				<parameters>sensor_id:0:function:cos(2*pi*t) + 0.5 * s</parameters>
+			</action>
+		</Attack>
+
+		<Attack>
+			<start_time>50</start_time>
+			<node>1</node>
+
+			<action>
+				<name>Fakeread</name>
+				<parameters>sensor_id:0:function:sin(2*pi*t) + s</parameters>
+			</action>
+		</Attack>
+
+	</Physical>
+
+</configuration>
