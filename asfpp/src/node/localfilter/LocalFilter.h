@@ -29,7 +29,6 @@
 
 
 #include "CastaliaMessages.h"
-#include "GlobalEventProcessorMessage.h"
 #include "LoggerMessage.h"
 #include "SensorManager.h"
 

@@ -24,18 +24,19 @@ void GlobalEventProcessor::scheduleUnconditionalAttacks()
 	parser.parse("Unconditional", unconditionalEntries);
     
     for (int i = 0; i < unconditionalEntries.size(); i++) {
-        UnconditionalFireMessage* fireMessage = new UnconditionalFireMessage("Fire Unconditional Attack", UNCONDITIONAL_ATTACK);
+        ScheduleUnconditionalAttackMessage* scheduleUnconditionalAttackMessage
+                    = new ScheduleUnconditionalAttackMessage("Fire Unconditional Attack", UNCONDITIONAL_ATTACK);
         SimTime occurrenceTime = unconditionalEntries[i]->getTime();
-        fireMessage->setIndex(i);
-        scheduleAt(occurrenceTime, fireMessage);
+        scheduleUnconditionalAttackMessage->setUnconditionalAttackIdentifier(i);
+        scheduleAt(occurrenceTime, scheduleUnconditionalAttackMessage);
     }
 }
 
 
-void GlobalEventProcessor::handleUnconditionalFireMessage(UnconditionalFireMessage* unconditionalFireMessage)
+void GlobalEventProcessor::handleScheduleUnconditionalAttackMessage(ScheduleUnconditionalAttackMessage* scheduleUnconditionalAttackMessage)
 {
     // retrieve the unconditional attack
-    int entryIndex = unconditionalFireMessage->getIndex();
+    int entryIndex = scheduleUnconditionalAttackMessage->getUnconditionalAttackIdentifier();
     UnconditionalAttack* attack = (UnconditionalAttack*)(unconditionalEntries[entryIndex]->getAttack());
     
     // execute the unconditional attack
@@ -55,9 +56,9 @@ void GlobalEventProcessor::handleUnconditionalFireMessage(UnconditionalFireMessa
     else {
         // re-schedule the unconditional attack
         double nextOccurrenceTime = simTime().dbl() + frequency;
-        UnconditionalFireMessage* nextUnconditionalFireMessage = new UnconditionalFireMessage("Fire Unconditional Attack", UNCONDITIONAL_ATTACK);
-        nextUnconditionalFireMessage->setIndex(entryIndex);
-        scheduleAt(nextOccurrenceTime, nextUnconditionalFireMessage);
+        ScheduleUnconditionalAttackMessage* nextScheduleUnconditionalAttackMessage = new ScheduleUnconditionalAttackMessage("Fire Unconditional Attack", UNCONDITIONAL_ATTACK);
+        nextScheduleUnconditionalAttackMessage->setUnconditionalAttackIdentifier(entryIndex);
+        scheduleAt(nextOccurrenceTime, nextScheduleUnconditionalAttackMessage);
     }
 }
 
@@ -135,9 +136,9 @@ void GlobalEventProcessor::handleMessage(cMessage* msg)
     // handle self-messages
     if (msg->isSelfMessage()) {
         
-        // handle UnconditionalFireMessage (i.e. fire the correspondent unconditional attack)
+        // handle ScheduleUnconditionalAttackMessage (i.e. fire the correspondent unconditional attack)
         if (msgClassName == "UnconditionalFireMessage") {
-            handleUnconditionalFireMessage((UnconditionalFireMessage*) msg);
+            handleScheduleUnconditionalAttackMessage((ScheduleUnconditionalAttackMessage*) msg);
         }
         
         // handle DestroyFireMessage (i.e. fire the correspondent destroy action)

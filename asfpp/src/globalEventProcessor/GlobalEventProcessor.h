@@ -8,7 +8,7 @@
 
 #include "Entry.h"
 
-#include "UnconditionalFireMessage_m.h"
+#include "ScheduleUnconditionalAttackMessage_m.h"
 #include "DestroyRequest_m.h"
 #include "DestroyFireMessage_m.h"
 #include "PutMessages.h"
@@ -51,9 +51,9 @@ private:
     
     /**
      * @brief Handles UnconditionalFireMessage(s) (self-messages), i.e. execute the relative 'unconditional' attack.
-     * @param unconditionalFireMessage Is the UnconditionalFireMessage to handle.
+     * @param scheduleUnconditionalAttackMessage Is the UnconditionalFireMessage to handle.
      */
-    void handleUnconditionalFireMessage(UnconditionalFireMessage* unconditionalFireMessage);
+    void handleScheduleUnconditionalAttackMessage(ScheduleUnconditionalAttackMessage* scheduleUnconditionalAttackMessage);
 
     /**
      * @brief Handles DestroyRequest(s) received by the local-filter(s) and schedule the relative 'destroy' action.
