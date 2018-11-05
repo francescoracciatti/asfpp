@@ -14,7 +14,7 @@ import wirelessChannel;
 import physicalProcess;
 import node;
 
-import globalfilter;
+import globalEventProcessor;
 import logger;
 
 network SN {
@@ -37,7 +37,7 @@ network SN {
         string configurationFile = default("none");
 
     submodules:
-        wirelessChannel:wirelessChannel.WirelessChannel {
+        wirelessChannel: wirelessChannel.WirelessChannel {
             gates:
                 toNode[numNodes];
                 fromNode[numNodes];
@@ -50,33 +50,33 @@ network SN {
                 fromNode[numNodes];
         }
 
-        node[numNodes]:node.Node {
+        node[numNodes]: node.Node {
             gates:
                 toPhysicalProcess[numPhysicalProcesses];
                 fromPhysicalProcess[numPhysicalProcesses];
         }
 
-        // The Global Filter communicates with the Local Filter of every node
-        globalFilter:globalfilter.GlobalFilter {
+        // The Global Event Processor communicates with the Local Filter of every node
+        globalEventProcessor: globalEventProcessor.GlobalEventProcessor {
             gates:
                 toNode[numNodes];
                 fromNode[numNodes];
         }
 
         // The Logger receives log messages from the Global Filter and Local Filter modules
-        logger:logger.Logger {
+        logger: logger.Logger {
             gates:
                 fromNode[numNodes];
-                fromGlobalFilter;
+                fromGlobalEventProcessor;
         }
 
     connections:
         for i = 0..numNodes - 1 {
             node[i].toWirelessChannel --> wirelessChannel.fromNode[i];
             node[i].fromWirelessChannel <-- wirelessChannel.toNode[i];
-            node[i].toGlobalFilter --> globalFilter.fromNode[i]; // M.T.
-            node[i].fromGlobalFilter <-- globalFilter.toNode[i]; // M.T.
-            node[i].toLogger --> logger.fromNode[i]; // M.T.
+            node[i].toGlobalEventProcessor --> globalEventProcessor.fromNode[i];
+            node[i].fromGlobalEventProcessor <-- globalEventProcessor.toNode[i];
+            node[i].toLogger --> logger.fromNode[i];
         }
 
         for i = 0..numNodes - 1, for j = 0..numPhysicalProcesses - 1 {
@@ -84,9 +84,9 @@ network SN {
             node[i].fromPhysicalProcess[j] <-- physicalProcess[j].toNode[i];
         }
 
-        // Global Filter wiring with the Wireless Channel and the Logger
-        globalFilter.toWirelessChannel --> wirelessChannel.fromGlobalFilter;
-        wirelessChannel.toGlobalFilter --> globalFilter.fromWirelessChannel;
-        globalFilter.toLogger --> logger.fromGlobalFilter;
+        // Global Event Processor wires the Wireless Channel and the Logger
+        globalEventProcessor.toWirelessChannel --> wirelessChannel.fromGlobalEventProcessor;
+        wirelessChannel.toGlobalEventProcessor --> globalEventProcessor.fromWirelessChannel;
+        globalEventProcessor.toLogger --> logger.fromGlobalEventProcessor;
 
 }

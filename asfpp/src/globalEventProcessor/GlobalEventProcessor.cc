@@ -1,14 +1,14 @@
-#include "GlobalFilter.h"
+#include "GlobalEventProcessor.h"
 
 #include "Parser.h"
 #include "UnconditionalAttack.h"
 #include "PhysicalAttack.h"
 
 
-Define_Module(GlobalFilter);
+Define_Module(GlobalEventProcessor);
 
 
-void GlobalFilter::scheduleUnconditionalAttacks()
+void GlobalEventProcessor::scheduleUnconditionalAttacks()
 {	
 	// retrieve the name of the attack configuration file (xml)
 	string attackConfigurationFileName = (getParentModule()->par("configurationFile")).stringValue();
@@ -32,7 +32,7 @@ void GlobalFilter::scheduleUnconditionalAttacks()
 }
 
 
-void GlobalFilter::handleUnconditionalFireMessage(UnconditionalFireMessage* unconditionalFireMessage)
+void GlobalEventProcessor::handleUnconditionalFireMessage(UnconditionalFireMessage* unconditionalFireMessage)
 {
     // retrieve the unconditional attack
     int entryIndex = unconditionalFireMessage->getIndex();
@@ -62,7 +62,7 @@ void GlobalFilter::handleUnconditionalFireMessage(UnconditionalFireMessage* unco
 }
 
 
-void GlobalFilter::handleDestroyRequest(DestroyRequest* destroyRequest)
+void GlobalEventProcessor::handleDestroyRequest(DestroyRequest* destroyRequest)
 {
     // retrieve the entry
     Entry* entry = (destroyRequest->getEntryWrapper()).getEntry();
@@ -84,7 +84,7 @@ void GlobalFilter::handleDestroyRequest(DestroyRequest* destroyRequest)
 }
 
 
-void GlobalFilter::handleDestroyFireMessage(DestroyFireMessage* destroyFireMessage)
+void GlobalEventProcessor::handleDestroyFireMessage(DestroyFireMessage* destroyFireMessage)
 {
     // retrieve and execute the physical attack (made by a single destroy action)
     PhysicalAttack* physicalAttack = (destroyFireMessage->getPhysicalAttackWrapper()).getPhysicalAttack();
@@ -95,7 +95,7 @@ void GlobalFilter::handleDestroyFireMessage(DestroyFireMessage* destroyFireMessa
 }
 
 
-void GlobalFilter::handlePutMessage(PutMessage* putMessage)
+void GlobalEventProcessor::handlePutMessage(PutMessage* putMessage)
 {
     // get the message encapsulated in putMessage
 	cMessage* encapsulatedPacket = putMessage->getPacket();
@@ -114,7 +114,7 @@ void GlobalFilter::handlePutMessage(PutMessage* putMessage)
 }
 
 
-void GlobalFilter::initialize()
+void GlobalEventProcessor::initialize()
 {
     // attack evaluation is disabled by default
     attacksEvaluation = false;
@@ -128,7 +128,7 @@ void GlobalFilter::initialize()
 }
 
 
-void GlobalFilter::handleMessage(cMessage* msg)
+void GlobalEventProcessor::handleMessage(cMessage* msg)
 {
     string msgClassName = msg->getClassName();
 
@@ -170,17 +170,17 @@ void GlobalFilter::handleMessage(cMessage* msg)
 }
 
 
-void GlobalFilter::finishSpecific() 
+void GlobalEventProcessor::finishSpecific()
 {
 }
 
 
-GlobalFilter::GlobalFilter()
+GlobalEventProcessor::GlobalEventProcessor()
 {
 }
 
 
-GlobalFilter::~GlobalFilter()
+GlobalEventProcessor::~GlobalEventProcessor()
 {
     // remove objects that are still helded by the global filter 
 	/*

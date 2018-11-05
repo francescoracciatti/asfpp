@@ -192,7 +192,7 @@ void LocalFilter::attackInit(int nodeID) {
             // send a destroyRequest to the global-filter
             DestroyRequest* destroyRequest = new DestroyRequest("DestroyRequest");
             destroyRequest->setEntryWrapper(entryWrapper);
-            send(destroyRequest, "toGlobalFilter");
+            send(destroyRequest, "toGlobalEventProcessor");
             
             // adjust vector of physical attacks and index
             physicalAttacks.erase(physicalAttacks.begin()+i);
@@ -303,9 +303,9 @@ void LocalFilter::handleMessage(cMessage* msg)
 
 
 	/* Message received from the Global Filter */
-	if (!arrivalGateName.compare("fromGlobalFilter")) {
+	if (!arrivalGateName.compare("fromGlobalEventProcessor")) {
 		
-		trace()<<"-> PUT_REQ from the GlobalFilter";
+		trace()<<"-> PUT_REQ from the GlobalEventProcessor";
 
 		switch(msgKind) {
 		  
@@ -561,7 +561,7 @@ void LocalFilter::handleMessage(cMessage* msg)
 						    //trace()<<"-> Send "<<new_messages[i];
 					    
 						    /* The GlobalFilter will send it to the intended recipient nodes */
-						    send(new_messages[i], "toGlobalFilter");
+						    send(new_messages[i], "toGlobalEventProcessor");
 						    break;
 						  
 						  }

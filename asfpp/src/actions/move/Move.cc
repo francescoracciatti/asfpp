@@ -28,8 +28,8 @@ void Move::execute()
     // mobility manager not found
     if (mobilityModule==nullptr) {
         // check if the target node is the global-filter
-        if (targetNode->getClassName() == "GlobalFilter") {
-            opp_error("[Move::execute()] Error, global-filter can't perform the action 'move'");
+        if (targetNode->getClassName() == "GlobalEventProcessor") {
+            opp_error("[Move::execute()] Error, GlobalEventProcessor can't perform the action 'move'");
         }
         else {
             opp_error("[Move::execute()] Error, mobility module not found, please check the node structure in the .ned file");

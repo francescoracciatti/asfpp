@@ -29,7 +29,7 @@
 
 
 #include "CastaliaMessages.h"
-#include "GlobalFilterMessage.h"
+#include "GlobalEventProcessorMessage.h"
 #include "LoggerMessage.h"
 #include "SensorManager.h"
 

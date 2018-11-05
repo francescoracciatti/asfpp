@@ -42,8 +42,8 @@ module Node {
         input fromPhysicalProcess[];
         output toPhysicalProcess[];
         
-        input fromGlobalFilter;
-        output toGlobalFilter;
+        input fromGlobalEventProcessor;
+        output toGlobalEventProcessor;
         
         output toLogger;
 
@@ -117,9 +117,9 @@ module Node {
             SensorManager.toNodeContainerModule[i] --> toPhysicalProcess[i];
         }
 
-        // LocalFilter and GlobalFilter
-        LocalFilter.toGlobalFilter --> toGlobalFilter;
-        fromGlobalFilter --> LocalFilter.fromGlobalFilter;
+        // LocalFilter and GlobalEventProcessor
+        LocalFilter.toGlobalEventProcessor --> toGlobalEventProcessor;
+        fromGlobalEventProcessor --> LocalFilter.fromGlobalEventProcessor;
 
         // LocalFilter and Logger
         LocalFilter.toLogger --> toLogger;

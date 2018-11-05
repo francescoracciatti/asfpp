@@ -1,19 +1,5 @@
-/**
- * @file GlobalFilter.h
- * 
- * @authors Francesco Racciatti <racciatti.francesco@gmail.com>
- *          Alessandro Pischedda <alessandro.pischedda@gmail.com>
- * 
- * @brief The class GlobalFilter models the behavior of the module 
- *        GlobalFilter which executes:
- *         + unconditional attacks,
- *         + put actions,
- *         + destroy actions.
- */
- 
-
-#ifndef GLOBAL_FILTER_H
-#define GLOBAL_FILTER_H
+#ifndef GLOBAL_EVENT_PROCESSOR_H
+#define GLOBAL_EVENT_PROCESSOR_H
 
 
 #include "CastaliaModule.h"
@@ -36,7 +22,14 @@ enum attackTimer {
 };
 
 
-class GlobalFilter: public CastaliaModule {
+//
+// The GlobalEventProcessor performs attack-related events.
+// In particular:
+//   + unconditional attacks,
+//   + put (message) events,
+//   + destroy events.
+//
+class GlobalEventProcessor: public CastaliaModule {
 private:
     // list of entries wrapping the unconditional attacks handled by the global filter
     vector<Entry*> unconditionalEntries;
@@ -102,12 +95,12 @@ public:
     /**
      * @brief Constructor.
      */
-    GlobalFilter();
+    GlobalEventProcessor();
     
     /**
      * @brief Destructor.
      */
-    virtual ~GlobalFilter();
+    virtual ~GlobalEventProcessor();
 };
 
 #endif

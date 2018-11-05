@@ -33,9 +33,9 @@ simple LocalFilter {
         inout resourcemanager_mac;
         inout resourcemanager_radio;
         
-        // to/from GlobalFilter
-        output toGlobalFilter;
-        input fromGlobalFilter;
+        // to/from GlobalEventProcessor
+        output toGlobalEventProcessor;
+        input fromGlobalEventProcessor;
 
         // to Logger
         output toLogger;
