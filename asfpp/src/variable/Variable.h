@@ -11,7 +11,6 @@
  */
 
 
-
 #ifndef VARIABLE_
 #define VARIABLE_
 

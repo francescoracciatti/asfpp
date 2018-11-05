@@ -7,11 +7,11 @@ package globalEventProcessor;
 simple GlobalEventProcessor {
 
     parameters:
-        bool    collectTraceInfo = default (false);
-        bool    evaluateAttacks = default (false);
-        string  applicationName = default("");
-        string  routingProtocolName = default("BypassRouting");
-        string  macProtocolName = default("BypassMac");
+        bool    collectTraceInfo        = default (false);
+        bool    evaluateAttacks         = default (false);
+        string  applicationName         = default("");
+        string  routingProtocolName     = default("BypassRouting");
+        string  macProtocolName         = default("BypassMac");
     
     gates:
         output  toWirelessChannel;

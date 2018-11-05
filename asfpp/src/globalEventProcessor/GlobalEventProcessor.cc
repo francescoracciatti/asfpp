@@ -4,15 +4,14 @@
 #include "UnconditionalAttack.h"
 #include "PhysicalAttack.h"
 
-
 Define_Module(GlobalEventProcessor);
 
-
-void GlobalEventProcessor::scheduleUnconditionalAttacks()
+void GlobalEventProcessor::scheduleUnconditionalAttacksOnInitialize()
 {	
-	// retrieve the name of the attack configuration file (xml)
-	string attackConfigurationFileName = (getParentModule()->par("configurationFile")).stringValue();
-    if (attackConfigurationFileName == "none") {
+	// Retrieves the name of the attack configuration file (xml)
+	std::string attackConfigurationFileName = (getParentModule()->par("configurationFile")).stringValue();
+    if ( attackConfigurationFileName == "none" )
+    {
 		return;
     }
 
@@ -117,72 +116,59 @@ void GlobalEventProcessor::handlePutMessage(PutMessage* putMessage)
 
 void GlobalEventProcessor::initialize()
 {
-    // attack evaluation is disabled by default
-    attacksEvaluation = false;
-    // retrieves names of application, routing and mac protocols
     applicationName = (par("applicationName")).stringValue();
     routingProtocolName = (par("routingProtocolName")).stringValue();
     macProtocolName = (par("macProtocolName")).stringValue();
-    
-    // schedule (the first fire of) the unconditional attacks
-    scheduleUnconditionalAttacks();
+
+    scheduleUnconditionalAttacksOnInitialize();
 }
 
 
 void GlobalEventProcessor::handleMessage(cMessage* msg)
 {
-    string msgClassName = msg->getClassName();
+    std::string msgClassName = msg->getClassName();
 
-    // handle self-messages
-    if (msg->isSelfMessage()) {
-        
-        // handle ScheduleUnconditionalAttackMessage (i.e. fire the correspondent unconditional attack)
-        if (msgClassName == "UnconditionalFireMessage") {
+    if ( msg->isSelfMessage() )
+    {
+        if ( msgClassName == "ScheduleUnconditionalAttackMessage" )
+        {
             handleScheduleUnconditionalAttackMessage((ScheduleUnconditionalAttackMessage*) msg);
         }
-        
-        // handle DestroyFireMessage (i.e. fire the correspondent destroy action)
-        if (msgClassName == "DestroyFireMessage") {
+
+        if ( msgClassName == "DestroyFireMessage" )
+        {
             handleDestroyFireMessage((DestroyFireMessage*) msg);
         }
-        
-        // delete the self message (check the scheduled event list before)
-        cancelAndDelete(msg);
-        
-    }
-    // handle external messages
-    else {
 
-        // handle external PutMessage(s)
-        if (msgClassName == "PutMessage") {
+        cancelAndDelete(msg);
+    }
+    else
+    {
+        if ( msgClassName == "PutMessage" )
+        {
             handlePutMessage((PutMessage*) msg);
         }
-        
-        // handle external DestroyRequest(s)
-        if (msgClassName == "DestroyRequest") {
+
+        if ( msgClassName == "DestroyRequest" )
+        {
             handleDestroyRequest((DestroyRequest*) msg);
         }
-        
-        
-        // delete the external message
+
         delete msg;
-        
     }
-}
-
-
-void GlobalEventProcessor::finishSpecific()
-{
 }
 
 
 GlobalEventProcessor::GlobalEventProcessor()
+        : unconditionalEntries(), applicationName(), routingProtocolName(), macProtocolName()
 {
 }
 
 
 GlobalEventProcessor::~GlobalEventProcessor()
 {
+    // FIXME memory leak, use smart pointers instead
+
     // remove objects that are still helded by the global filter 
 	/*
     for (size_t i = 0; i < unconditionalEntries.size(); i++) {

@@ -3,18 +3,17 @@
 
 
 #include "CastaliaModule.h"
+
 #include <vector>
 #include <string>
 
-#include "Entry.h"
+
 
 #include "ScheduleUnconditionalAttackMessage_m.h"
 #include "DestroyRequest_m.h"
 #include "DestroyFireMessage_m.h"
 #include "PutMessages.h"
-
-
-using namespace std;
+#include "Entry.h"
 
 
 enum attackTimer {
@@ -23,31 +22,24 @@ enum attackTimer {
 
 
 //
-// The GlobalEventProcessor performs attack-related events.
-// In particular:
-//   + unconditional attacks,
-//   + put (message) events,
-//   + destroy events.
+// The GlobalEventProcessor performs unconditional attacks and destroys network's nodes.
 //
-class GlobalEventProcessor: public CastaliaModule {
-private:
-    // list of entries wrapping the unconditional attacks handled by the global filter
-    vector<Entry*> unconditionalEntries;
-    // TODO to remove
-    // it is TRUE when evaluation of attacks is enabled
-    bool attacksEvaluation;
-    // name of the application
-    string applicationName;
-    // name of the routing protocol
-    string routingProtocolName;
-    // name of the mac protocol
-    string macProtocolName;
+class GlobalEventProcessor : public CastaliaModule {
+public:
+    GlobalEventProcessor();
+
+    virtual ~GlobalEventProcessor();
+
+protected:
+    virtual void initialize() override;
+
+    virtual void handleMessage(cMessage* msg) override;
 
 private:
-    /**
-     * @brief Schedules (the first firing of) the unconditional attacks.
-     */
-    void scheduleUnconditionalAttacks();
+    //
+    // Schedules the first occurrence of each unconditional attack on initialize.
+    //
+    void scheduleUnconditionalAttacksOnInitialize();
     
     /**
      * @brief Handles UnconditionalFireMessage(s) (self-messages), i.e. execute the relative 'unconditional' attack.
@@ -73,34 +65,16 @@ private:
      */
     void handlePutMessage(PutMessage* putMessage);
 
+private:
+    // list of entries wrapping the unconditional attacks handled by the global filter
+    std::vector<Entry*> unconditionalEntries;
 
-protected:
-    /**
-     * @brief Initializes the global-filter module.
-     */
-    virtual void initialize();
+    std::string applicationName;
 
-    /**
-     * @brief Handles the received messages (both messages and self-messages).
-     * @param msg Is the received message to handle.
-     */
-    virtual void handleMessage(cMessage* msg);
+    std::string routingProtocolName;
 
-    /**
-     * @brief Record statistics.
-     */
-    virtual void finishSpecific();
+    std::string macProtocolName;
 
-public:
-    /**
-     * @brief Constructor.
-     */
-    GlobalEventProcessor();
-    
-    /**
-     * @brief Destructor.
-     */
-    virtual ~GlobalEventProcessor();
 };
 
 #endif

@@ -10,7 +10,7 @@ simple Logger {
     bool logCompromisedPacket = default (false);
 
   gates:
-    input fromNode[]; // from network nodes (local filters)	// M.T.
-    input fromGlobalFilter; // from the Global Filter module	// M.T.
+    input fromNode[];
+    input fromGlobalEventProcessor;
 
 }
